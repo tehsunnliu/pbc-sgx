@@ -33,27 +33,26 @@ static void deterministic_mpz_random(mpz_t z, mpz_t limit, void *data) {
 
 static void sgx_mpz_random(mpz_t r, mpz_t limit, void *data) {
   UNUSED_VAR (data);
-  UNUSED_VAR (limit);
-  // int n, bytecount, leftover;
-  // unsigned char *bytes;
+  int n, bytecount, leftover;
+  unsigned char *bytes;
   mpz_t z;
   mpz_init(z);
-  // n = mpz_sizeinbase(limit, 2);
-  // bytecount = (n + 7) / 8;
-  // leftover = n % 8;
-  // bytes = (unsigned char *) pbc_malloc(bytecount);
+  n = mpz_sizeinbase(limit, 2);
+  bytecount = (n + 7) / 8;
+  leftover = n % 8;
+  bytes = (unsigned char *) pbc_malloc(bytecount);
   
-  // for (;;) {
-  //   sgx_read_rand((unsigned char *) bytes, 1);
-  //   if (leftover) {
-  //     *bytes = *bytes % (1 << leftover);
-  //   }
-  //   mpz_import(z, bytecount, 1, 1, 0, 0, bytes);
-  //   if (mpz_cmp(z, limit) < 0) break;
-  // }
+  for (;;) {
+    sgx_read_rand((unsigned char *) bytes, 1);
+    if (leftover) {
+      *bytes = *bytes % (1 << leftover);
+    }
+    mpz_import(z, bytecount, 1, 1, 0, 0, bytes);
+    if (mpz_cmp(z, limit) < 0) break;
+  }
   mpz_set(r, z);
   mpz_clear(z);
-  // pbc_free(bytes);
+  pbc_free(bytes);
 }
 
 // static void file_mpz_random(mpz_t r, mpz_t limit, void *data) {
