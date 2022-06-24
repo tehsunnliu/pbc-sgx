@@ -1,0 +1,9 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory '/home/tehsunnliu/CESS/pbc-sgx'
+CDPATH="${ZSH_VERSION+.}:" && cd . && /bin/bash /root/Kaleido/cess_pbc/pbc/missing aclocal-1.15 
+make: Leaving directory '/home/tehsunnliu/CESS/pbc-sgx'
+ 
+/bin/bash: /root/Kaleido/cess_pbc/pbc/missing: Permission denied
+make: *** [Makefile:469: aclocal.m4] Error 126
+make: Failed to remake makefile 'Makefile'.
+
